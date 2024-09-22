@@ -1,3 +1,4 @@
+
 (function () {
     // Create chat widget elements
     const widgetContainer = document.createElement('div');
@@ -104,7 +105,7 @@
                 border: none;
                 border-radius: 50%; 
                 padding: 15px;
-cursor: pointer;
+                cursor: pointer;
                 z-index: 9999; 
                 width: 60px; 
                 height: 60px; 
@@ -118,10 +119,10 @@ cursor: pointer;
                 font-size: 20px;
             }
                 .developer{
-    font-size: small;
+      font-size: small;
     }
         </style>
-    <div class="d-flex align-items-center justify-content-between bg-primary-subtle p-2 bg-light chat-header">
+       <div class="d-flex align-items-center justify-content-between bg-primary-subtle p-2 bg-light chat-header">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6hn5KYtSp4HnteAMMJU0AfLiTn6IKsRXrrg&s" alt="Agent" class="me-2">
     <span class="text-dark">Chat with Us</span>
     <a class="btn-close" onclick="toggleChat()" aria-label="Close"></a>
@@ -155,21 +156,13 @@ cursor: pointer;
 
     loadMessages();
 
-    let suggestionCount = 0; // Keep track of suggestions given
-    const suggestions = [
-        "What services do you offer?",
-        "Can you tell me more about your app development?",
-        "Do you have any case studies?",
-        "What technologies do you use?",
-        "What is your experience in the industry?"
-    ];
-
     function toggleChat() {
         const chatWidget = document.getElementById('chatWidget');
         const isVisible = chatWidget.style.display === 'block';
         chatWidget.style.display = isVisible ? 'none' : 'block';
         chatButton.style.display = isVisible ? 'block' : 'none';
-        sessionStorage.setItem('chatVisible', !isVisible);
+        sessionStorage.setItem('chatVisible',
+            !isVisible);
     }
 
     function handleKeyPress(event) {
@@ -182,61 +175,55 @@ cursor: pointer;
         const input = document.getElementById('inputMessage');
         const messageText = input.value.trim().toLowerCase();
         if (messageText) {
-            displayMessage(messageText, 'user');
-            input.value = '';
-
-            setTimeout(() => {
-                let agentResponse = "";
-
-                const keywords = {
-                    "hello": "Hello there! How can I help you today?",
-                    "hi": "Hi! How can I assist you?",
-                    "price": "Our pricing varies depending on the project scope and complexity. Please tell me more about your needs and I can provide you with a customized quote.",
-                    "cost": "Our pricing varies depending on the project scope and complexity. Please tell me more about your needs and I can provide you with a customized quote.",
-                    "services": "We offer a wide range of software services, including application development, website design & development, e-commerce solutions, and more. What are you interested in?",
-                    "app development": "We excel at building high-quality mobile and web applications. Do you have a specific platform in mind (iOS, Android, or web)?",
-                    "mobile app": "We excel at building high-quality mobile and web applications. Do you have a specific platform in mind (iOS, Android, or web)?",
-                    "website": "We can create stunning and functional websites tailored to your business needs. Do you have a particular design style in mind?",
-                    "web design": "We can create stunning and functional websites tailored to your business needs. Do you have a particular design style in mind?",
-                    "e-commerce": "We can help you set up a robust and user-friendly e-commerce store. Are you looking to integrate with any specific platforms?",
-                    "online store": "We can help you set up a robust and user-friendly e-commerce store. Are you looking to integrate with any specific platforms?",
-                    "contact": "You can reach us at [email protected] or call us at [phone number].",
-                    "location": "Our office is located at [your office address].",
-                    "team": "We have a talented team of developers, designers, and project managers dedicated to delivering high-quality software solutions.",
-                    "experience": "We have over [number] years of experience in the software industry.",
-                    "clients": "We've worked with a diverse range of clients, from startups to large enterprises.",
-                    "process": "Our development process typically involves requirement gathering, design, development, testing, deployment, and maintenance.",
-                    "technologies": "We work with a variety of technologies, including [list some technologies like: JavaScript, React, Node.js, Python, etc.].",
-                    "consultation": "We offer free consultations to discuss your project needs. Feel free to schedule one with us!",
-                    "portfolio": "You can check out our portfolio on our website to see some of our past projects.",
-                    "case studies": "We have detailed case studies available on our website showcasing our successful projects.",
-                    "thank you": "You're welcome! Is there anything else I can help you with?"
-                };
-
-                let foundKeyword = false;
-                for (const keyword in keywords) {
-                    if (messageText.includes(keyword)) {
-                        agentResponse = keywords[keyword];
-                        foundKeyword = true;
-                        break;
-                    }
-                }
-
-                if (!foundKeyword) {
-                    agentResponse = "I'm not sure I understand, but I'm always learning! Can you rephrase your question or try asking something else?";
-                }
-
-                // Add suggestion if not found and suggestions are available
-                if (!foundKeyword && suggestionCount < suggestions.length) {
-                    agentResponse += "<br><br> <b>Maybe you want to ask:</b> " + suggestions[suggestionCount];
-                    suggestionCount++;
-                }
-
-                displayMessage(agentResponse, 'agent');
-            }, 1000);
-            saveMessages();
+          displayMessage(messageText, 'user');
+          input.value = '';
+      
+          setTimeout(() => {
+            let agentResponse = "";
+      
+            const keywords = {
+              "hello": "Hello there! How can I help you today?",
+              "hi": "Hi! How can I assist you?",
+              "price": "Our pricing varies depending on the project scope and complexity. Please tell me more about your needs and I can provide you with a customized quote.",
+              "cost": "Our pricing varies depending on the project scope and complexity. Please tell me more about your needs and I can provide you with a customized quote.",
+              "services": "We offer a wide range of software services, including application development, website design & development, e-commerce solutions, and more. What are you interested in?",
+              "app development": "We excel at building high-quality mobile and web applications. Do you have a specific platform in mind (iOS, Android, or web)?",
+              "mobile app": "We excel at building high-quality mobile and web applications. Do you have a specific platform in mind (iOS, Android, or web)?",
+              "website": "We can create stunning and functional websites tailored to your business needs. Do you have a particular design style in mind?",
+              "web design": "We can create stunning and functional websites tailored to your business needs. Do you have a particular design style in mind?",
+              "e-commerce": "We can help you set up a robust and user-friendly e-commerce store. Are you looking to integrate with any specific platforms?",
+              "online store": "We can help you set up a robust and user-friendly e-commerce store. Are you looking to integrate with any specific platforms?",
+              "contact": "You can reach us at [email protected] or call us at [phone number].",
+              "location": "Our office is located at [your office address].", 
+              "team": "We have a talented team of developers, designers, and project managers dedicated to delivering high-quality software solutions.",
+              "experience": "We have over [number] years of experience in the software industry.",
+              "clients": "We've worked with a diverse range of clients, from startups to large enterprises.",
+              "process": "Our development process typically involves requirement gathering, design, development, testing, deployment, and maintenance.",
+              "technologies": "We work with a variety of technologies, including [list some technologies like: JavaScript, React, Node.js, Python, etc.].",
+              "consultation": "We offer free consultations to discuss your project needs. Feel free to schedule one with us!",
+              "portfolio": "You can check out our portfolio on our website to see some of our past projects.",
+              "case studies": "We have detailed case studies available on our website showcasing our successful projects.",
+              "thank you": "You're welcome! Is there anything else I can help you with?"
+            };
+      
+            let foundKeyword = false;
+            for (const keyword in keywords) {
+              if (messageText.includes(keyword)) {
+                agentResponse = keywords[keyword];
+                foundKeyword = true;
+                break;
+              }
+            }
+      
+            if (!foundKeyword) {
+              agentResponse = "I'm not sure I understand, but I'm always learning! Can you rephrase your question or try asking something else?";
+            }
+      
+            displayMessage(agentResponse, 'agent');
+          }, 1000);
+          saveMessages();
         }
-    }
+      }
 
 
     function displayMessage(text, sender) {
@@ -265,3 +252,4 @@ cursor: pointer;
     window.sendMessage = sendMessage;
     window.handleKeyPress = handleKeyPress;
 })();
+  

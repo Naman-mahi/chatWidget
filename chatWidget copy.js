@@ -5,8 +5,6 @@
     widgetContainer.innerHTML = `
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
             #chatWidget {
                 position: fixed;
                 bottom: 20px;
@@ -18,7 +16,7 @@
                 display: none;
                 background-color: #fff;
                 z-index: 9999; 
-                font-family:'Poppins', sans-serif;
+                font-family: sans-serif;
             }
             .chat-header {
                 background-color: #28a745; /* Green header */
@@ -54,7 +52,6 @@
                 display: flex;
                 align-items: flex-end;
                 margin-bottom: 10px;
-                font-size:small;
             }
             .message-text {
                 background-color: #fff; /* White message bubbles */
@@ -75,18 +72,18 @@
                 justify-content: flex-start;
             }
             .agent-message .message-text {
-                background-color: #d9d7dd; /* Light gray agent message */
+                background-color: #a2a0a5; /* Light gray agent message */
             }
             .chat-input {
                 display: flex;
-                padding: 5px;
+                padding: 15px;
                 border-top: 1px solid #ddd;
                 background-color: #f8f9fa;
                 border-radius: 0 0 10px 10px;
             }
             #inputMessage {
                 flex: 1;
-                margin-right: 1px;
+                margin-right: 2px;
                 border: none;
                 padding: 10px 15px;
                 border-radius: 20px;
@@ -104,7 +101,7 @@
                 border: none;
                 border-radius: 50%; 
                 padding: 15px;
-cursor: pointer;
+                cursor: pointer;
                 z-index: 9999; 
                 width: 60px; 
                 height: 60px; 
@@ -117,11 +114,8 @@ cursor: pointer;
             .chat-button i {
                 font-size: 20px;
             }
-                .developer{
-    font-size: small;
-    }
         </style>
-    <div class="d-flex align-items-center justify-content-between bg-primary-subtle p-2 bg-light chat-header">
+       <div class="d-flex align-items-center justify-content-between bg-primary-subtle p-2 bg-light chat-header">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6hn5KYtSp4HnteAMMJU0AfLiTn6IKsRXrrg&s" alt="Agent" class="me-2">
     <span class="text-dark">Chat with Us</span>
     <a class="btn-close" onclick="toggleChat()" aria-label="Close"></a>
@@ -135,9 +129,6 @@ cursor: pointer;
                 <a class="no-decoration btn" onclick="sendMessage()">
                     <i class="fas fa-paper-plane"></i> 
                 </a>
-            </div>
-            <div class="text-center developer">
-            <small">Namanmahi❣️</small>
             </div>
         `;
     document.body.appendChild(widgetContainer);
@@ -155,21 +146,13 @@ cursor: pointer;
 
     loadMessages();
 
-    let suggestionCount = 0; // Keep track of suggestions given
-    const suggestions = [
-        "What services do you offer?",
-        "Can you tell me more about your app development?",
-        "Do you have any case studies?",
-        "What technologies do you use?",
-        "What is your experience in the industry?"
-    ];
-
     function toggleChat() {
         const chatWidget = document.getElementById('chatWidget');
         const isVisible = chatWidget.style.display === 'block';
         chatWidget.style.display = isVisible ? 'none' : 'block';
         chatButton.style.display = isVisible ? 'block' : 'none';
-        sessionStorage.setItem('chatVisible', !isVisible);
+        sessionStorage.setItem('chatVisible',
+            !isVisible);
     }
 
     function handleKeyPress(event) {
@@ -180,63 +163,38 @@ cursor: pointer;
 
     function sendMessage() {
         const input = document.getElementById('inputMessage');
-        const messageText = input.value.trim().toLowerCase();
+        const messageText = input.value.trim();
         if (messageText) {
-            displayMessage(messageText, 'user');
-            input.value = '';
-
-            setTimeout(() => {
-                let agentResponse = "";
-
-                const keywords = {
-                    "hello": "Hello there! How can I help you today?",
-                    "hi": "Hi! How can I assist you?",
-                    "price": "Our pricing varies depending on the project scope and complexity. Please tell me more about your needs and I can provide you with a customized quote.",
-                    "cost": "Our pricing varies depending on the project scope and complexity. Please tell me more about your needs and I can provide you with a customized quote.",
-                    "services": "We offer a wide range of software services, including application development, website design & development, e-commerce solutions, and more. What are you interested in?",
-                    "app development": "We excel at building high-quality mobile and web applications. Do you have a specific platform in mind (iOS, Android, or web)?",
-                    "mobile app": "We excel at building high-quality mobile and web applications. Do you have a specific platform in mind (iOS, Android, or web)?",
-                    "website": "We can create stunning and functional websites tailored to your business needs. Do you have a particular design style in mind?",
-                    "web design": "We can create stunning and functional websites tailored to your business needs. Do you have a particular design style in mind?",
-                    "e-commerce": "We can help you set up a robust and user-friendly e-commerce store. Are you looking to integrate with any specific platforms?",
-                    "online store": "We can help you set up a robust and user-friendly e-commerce store. Are you looking to integrate with any specific platforms?",
-                    "contact": "You can reach us at [email protected] or call us at [phone number].",
-                    "location": "Our office is located at [your office address].",
-                    "team": "We have a talented team of developers, designers, and project managers dedicated to delivering high-quality software solutions.",
-                    "experience": "We have over [number] years of experience in the software industry.",
-                    "clients": "We've worked with a diverse range of clients, from startups to large enterprises.",
-                    "process": "Our development process typically involves requirement gathering, design, development, testing, deployment, and maintenance.",
-                    "technologies": "We work with a variety of technologies, including [list some technologies like: JavaScript, React, Node.js, Python, etc.].",
-                    "consultation": "We offer free consultations to discuss your project needs. Feel free to schedule one with us!",
-                    "portfolio": "You can check out our portfolio on our website to see some of our past projects.",
-                    "case studies": "We have detailed case studies available on our website showcasing our successful projects.",
-                    "thank you": "You're welcome! Is there anything else I can help you with?"
-                };
-
-                let foundKeyword = false;
-                for (const keyword in keywords) {
-                    if (messageText.includes(keyword)) {
-                        agentResponse = keywords[keyword];
-                        foundKeyword = true;
-                        break;
-                    }
-                }
-
-                if (!foundKeyword) {
-                    agentResponse = "I'm not sure I understand, but I'm always learning! Can you rephrase your question or try asking something else?";
-                }
-
-                // Add suggestion if not found and suggestions are available
-                if (!foundKeyword && suggestionCount < suggestions.length) {
-                    agentResponse += "<br><br> <b>Maybe you want to ask:</b> " + suggestions[suggestionCount];
-                    suggestionCount++;
-                }
-
-                displayMessage(agentResponse, 'agent');
-            }, 1000);
-            saveMessages();
+          displayMessage(messageText, 'user');
+          input.value = '';
+      
+          setTimeout(() => {
+            let agentResponse = "";
+      
+            if (messageText.toLowerCase().includes("hello")) {
+              agentResponse = "Hello there! How can I help you today?";
+            } else if (messageText.toLowerCase().includes("price") || messageText.toLowerCase().includes("cost")) {
+              agentResponse = "Our pricing varies depending on the project scope and complexity. Please tell me more about your needs and I can provide you with a customized quote.";
+            } else if (messageText.toLowerCase().includes("services") || messageText.toLowerCase().includes("what do you do")) {
+              agentResponse = "We offer a wide range of software services, including application development, website design & development, e-commerce solutions, and more.  What are you interested in?";
+            } else if (messageText.toLowerCase().includes("app development") || messageText.toLowerCase().includes("mobile app")) {
+              agentResponse = "We excel at building high-quality mobile and web applications. Do you have a specific platform in mind (iOS, Android, or web)?";
+            } else if (messageText.toLowerCase().includes("website") || messageText.toLowerCase().includes("web design")) {
+              agentResponse = "We can create stunning and functional websites tailored to your business needs. Do you have a particular design style in mind?";
+            } else if (messageText.toLowerCase().includes("e-commerce") || messageText.toLowerCase().includes("online store")) {
+              agentResponse = "We can help you set up a robust and user-friendly e-commerce store.  Are you looking to integrate with any specific platforms?";
+            } else if (messageText.toLowerCase().includes("Naman Khobragade")) {
+              agentResponse = "Naman is our founder and CEO. He's a visionary leader with a passion for technology and innovation!";
+            } else {
+              agentResponse = "Thanks for your message! I'm still under development, but I'm learning more every day. Feel free to ask me anything about our services.";
+            }
+      
+            displayMessage(agentResponse, 'agent');
+          }, 1000);
+          saveMessages();
         }
-    }
+      }
+      
 
 
     function displayMessage(text, sender) {
